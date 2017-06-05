@@ -11,15 +11,17 @@ var sAttack;
 var emitter;
 var scalpel;
 var isAttacking = false;
+var isThrowing = false;
 var isLeft = false;
 var isRight = false;
+var bossAttacking = false;
 var spawnGroup;
 var key = false;
 var playerHealth = 10000;
 var pills = 3;
-var scalpels = 5;
+var scalpels = 15;
 
-var waveSize = 1;
+var waveSize = 5;
 var aliveEnemies = 0;
 
 var lock1 = false;
@@ -43,16 +45,24 @@ var lockBossPending = true;
 var lockBossSpawn = true;
 
 var text1 = [
-    "The dumb sky above the port was the color of television, tuned to a dead channel.\n`It's not like I'm using,' Case heard someone say, as he shouldered his way ",
-    "through the crowd around the door of the Chat. `It's like my body's developed",
+    "They beat me up... humiliated me... denied me a seat.",
+    "But now now I'm back and I'm taking matters into ",
+    "my own hands. If they won't fly me home then I'm ",
+    "going to have to do it myself.	",
     "",
 	];
 var text2 = [
-	"The sky above the port was the color of television, tuned to a dead channel.\n`It's not like I'm using,' Case heard someone say, as he shouldered his way ",
-    "through the crowd around the door of the Chat. `It's like my body's developed",
+	"Time to get my revenge.",
+    "I'm going to prescribe them some medication.",
+    "Prescription?",
+    "DEATH.		",
     "",
 ];
-var textBlock = [text1, text2];
+var text3 = [
+	"MISSION: Fight your way onto the plane.",
+	"Go to the cockpit and fly your damn self home."
+];
+var textBlock = [text1, text2, text3];
 var line = [];
 var content = [];
 
@@ -81,4 +91,45 @@ game.state.start('Load');
 //Call this to go to the losing state
 function goToLoseState(){
   game.state.start('Lose');
+}
+
+// Replay the game
+function again()
+{
+    //Reset Variables
+    isAttacking = false;
+    isThrowing = false;
+    isLeft = false;
+    isRight = false;
+    bossAttacking = false;
+    key = false;
+    playerHealth = 10000;
+    pills = 3;
+    scalpels = 5;
+
+    waveSize = 5;
+    aliveEnemies = 0;
+
+    lock1 = false;
+    lock1Pending = true;
+    lock1Spawn = true;
+
+    lock2 = false;
+    lock2Pending = true;
+    lock2Spawn = true;
+
+    lock3 = false;
+    lock3Pending = true;
+    lock3Spawn = true;
+
+    lock4 = false;
+    lock4Pending = true;
+    lock4Spawn = true;
+
+    lockBoss = false;
+    lockBossPending = true;
+    lockBossSpawn = true;
+
+    //Move to MainMenu
+    game.state.start('Level1Part1');
 }
