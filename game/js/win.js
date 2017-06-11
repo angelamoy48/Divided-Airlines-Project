@@ -4,56 +4,50 @@ Win.prototype =
 {
     create: function()
     {
-        game.music.stop();
+       textStyle = {
+            font: 'Cuprum',
+            fontSize: 40,
+            wordWrap: true,
+            wordWrapWidth: 600,
+            fill: '#bababa',
+            align: 'center'
+        }
+        
+        //Music
+        game.bgMusic.stop();
+        game.battleMusic.stop();
+        game.bossMusic.stop();
+
+        game.winMusic.play('', 0, 0.2, true);
 
         //Prompt for Replay
-        game.add.text(230, 200, "You won: Restart?",
-            {font: '30px Arial', fill: '#ffffff'});
-
-        //Restart Button
-        restartButton = game.add.button(400, 300, 'rewind', this.Again, this);
-        restartButton.anchor.x = 0.5;
-        restartButton.anchor.y = 0.5;
+        game.add.text(200, 170, "You won! Press Q to restart", textStyle);
+        
+        //SIMON!!!
+        if(simonSaved == true)
+        {
+           game.add.text(260, 230, "Simon was saved!", textStyle);
+           simon = game.add.sprite(270, 270, 'simon');
+           simon.animations.add('simon', [16, 17, 18, 19, 20, 21], 15, false);
+           simon.animations.play('simon');
+           simon.frame = 21;
+        }
+        else
+        {
+           game.add.text(110, 230, "Sadly, Simon died on the flight home...", textStyle);
+        }
 
         //Background color, because color is good
-        game.stage.backgroundColor = "#007700";
+        game.stage.backgroundColor = "#000";
+
+        //Restart Key
+        qKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
     },
-    Again: function()
+    update: function()
     {
-        //Reset Variables
-        isAttacking = false;
-        isLeft = false;
-        isRight = false;
-        spawnGroup;
-        key = false;
-        playerHealth = 10000;
-        pills = 3;
-        scalpels = 5;
-
-        waveSize = 5;
-        aliveEnemies = 0;
-
-        lock1 = false;
-        lock1Pending = true;
-        lock1Spawn = true;
-
-        lock2 = false;
-        lock2Pending = true;
-        lock2Spawn = true;
-
-        lock3 = false;
-        lock3Pending = true;
-        lock3Spawn = true;
-
-        lock4 = false;
-        lock4Pending = true;
-        lock4Spawn = true;
-
-        lockBoss = false;
-        lockBossPending = true;
-        lockBossSpawn = true;
-
-        //Move to MainMenu
-        game.state.start('MainMenu');
+        if (qKey.justPressed(qKey))
+        {
+            again();
+        }
     }
 };
