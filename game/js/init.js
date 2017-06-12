@@ -2,6 +2,7 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
 //Global Variables
+//Sprite vars
 var player;
 var playButton;
 var restartButton;
@@ -10,18 +11,31 @@ var enemy;
 var sAttack;
 var emitter;
 var scalpel;
+var spawnGroup;
+var endKey;
+
+//Trigger vars
 var isAttacking = false;
+var isThrowing = false;
 var isLeft = false;
 var isRight = false;
-var spawnGroup;
+var bossAttacking = false;
 var key = false;
+var simonSaved = false;
+var waveSize = 5;
+var aliveEnemies = 0;
+
+//Resource vars
 var playerHealth = 10000;
 var pills = 3;
 var scalpels = 5;
+var HUDFont = {font: 'Cuprum', fontSize: '24px', fill: '#000000'};
+var simonSaved = false;
 
-var waveSize = 1;
+var waveSize = 5;
 var aliveEnemies = 0;
 
+//Lock vars
 var lock1 = false;
 var lock1Pending = true;
 var lock1Spawn = true;
@@ -42,17 +56,41 @@ var lockBoss = false;
 var lockBossPending = true;
 var lockBossSpawn = true;
 
+//HUD vars
+var HUDFont = {font: 'Cuprum', fontSize: '24px', fill: '#000000'};
+var healthBar;
+var scalpeIcon;
+var scalpelText;
+var pillIcon;
+var pillText;
+var pillButton;
+var pillButtonText;
+var meleeAtkIcon;
+var meleeAtkText;
+var rangedAtkIcon;
+var rangedAtkText;
+var playerMaxHealth = 10000;
+
+//Cutscene vars
 var text1 = [
-    "The dumb sky above the port was the color of television, tuned to a dead channel.\n`It's not like I'm using,' Case heard someone say, as he shouldered his way ",
-    "through the crowd around the door of the Chat. `It's like my body's developed",
+    "They beat me up... humiliated me... denied me a seat.",
+    "But now now I'm back and I'm taking matters into ",
+    "my own hands. If they won't fly me home then I'm ",
+    "going to have to do it myself.	",
     "",
 	];
 var text2 = [
-	"The sky above the port was the color of television, tuned to a dead channel.\n`It's not like I'm using,' Case heard someone say, as he shouldered his way ",
-    "through the crowd around the door of the Chat. `It's like my body's developed",
+	"Time to get my revenge.",
+    "I'm going to prescribe them some medication.",
+    "Prescription?",
+    "DEATH.		",
     "",
 ];
-var textBlock = [text1, text2];
+var text3 = [
+	"MISSION: Fight your way onto the plane.",
+	"Go to the cockpit and fly your damn self home."
+];
+var textBlock = [text1, text2, text3];
 var line = [];
 var content = [];
 
@@ -77,8 +115,3 @@ game.state.add('Lose', Lose);
 
 //Start Preloader
 game.state.start('Load');
-
-//Call this to go to the losing state
-function goToLoseState(){
-  game.state.start('Lose');
-}
